@@ -26,8 +26,8 @@
 					:default-active="defaultActive"
 					class="el-menu-vertical-demo"
 					:router="true"
-					background-color="#1d2023"
-					active-text-color="#fff"
+					background-color="#fff"
+					active-text-color="#666"
 					style="width:200px;height:100%;"
 				>
 					<menuTree :data="menu_data"></menuTree>

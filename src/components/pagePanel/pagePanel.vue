@@ -8,35 +8,72 @@
 					<el-button type="info" size="small">重置</el-button>
 				</div>
 			</el-form>
-           
 		</div>
 		<el-divider v-if="showSearch"></el-divider>
-		 <div style="margin-top:20px"> 
-                <slot name="operation-bar"></slot>
-            </div>
-			<div class="v-table">
-				<el-table :data="tableData" style="width: 100%">
-					<slot name="column"></slot>
-				</el-table>
-				<el-pagination background layout="prev, pager, next" :total="1000" style="margin-top:20px"></el-pagination>
-			</div>
+		<div style="margin-top:20px">
+			<slot name="operation-bar"></slot>
+		</div>
+		<div class="v-table">
+			<el-table :data="tableData" style="width: 100%" :max-height="400">
+				<slot name="column"></slot>
+			</el-table>
+			<el-pagination
+				@current-change="handleCurrentChange"
+				:current-page.sync="currentPage1"
+				:page-size="this.pageParams.limit"
+				layout="total, prev, pager, next"
+				:total="total"
+			></el-pagination>
+		</div>
 	</div>
 </template>
 
 <script>
+import { get, post } from '@/request/http'
 export default {
 	props: {
-        url:String,
-		searchForm:Object,
-		showSearch:{
-			type:Boolean,
-			default:true
+		fromType: String,
+		url: String,
+		searchForm: Object,
+		showSearch: {
+			type: Boolean,
+			default: true
 		}
-    },
+	},
 	data() {
 		return {
-            tableData:[]
-        }
+			total: 0,
+			tableData: [],
+			pageParams: {
+				limit: 10,
+				offset: 0
+			},
+			currentPage1:1
+		}
+	},
+	methods: {
+		handleCurrentChange(val){
+			this.pageParams.offset = (val-1) * this.pageParams.limit
+			this.reloadData()
+		},
+		getData() {
+			get(this.url, this.pageParams).then(res => {
+				if (res.code == '0') {
+					this.tableData = res.data[this.fromType]
+					this.total = res.data.count
+				} else {
+					this.$message.error({
+						message: res.msg
+					})
+				}
+			})
+		},
+		reloadData() {
+			this.getData()
+		}
+	},
+	created() {
+		this.getData()
 	}
 }
 </script>
@@ -46,7 +83,7 @@ export default {
 	/deep/.el-select {
 		width: 100%;
 	}
-	.btn-group{
+	.btn-group {
 		margin-top: 30px;
 		display: flex;
 		justify-content: center;
@@ -54,6 +91,6 @@ export default {
 }
 .v-table {
 	margin-top: 20px;
-	border:1px solid #e5e5e5;
+	border: 1px solid #e5e5e5;
 }
 </style>

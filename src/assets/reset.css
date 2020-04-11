@@ -67,3 +67,6 @@ a:hover {
 .el-dialog__title{
   font-size: 14px;
 }
+.el-button--small{
+  font-size: 14px;
+}

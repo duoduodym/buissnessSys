@@ -1,26 +1,32 @@
 <template>
 	<div class="container">
-        <pagePanel :searchForm="searchForm" :showSearch="false">
-            <template slot="operation-bar">
-                 <el-button  type="primary" size="small" @click="onAdd">新增角色</el-button>
-            </template>
-            <template slot="column">
-					<el-table-column prop="name" label="角色名称"></el-table-column>
-					<el-table-column prop="size" label="说明"></el-table-column>
-					<el-table-column prop="createTime" label="创建时间"></el-table-column>
-					<el-table-column fixed="left" label="操作" >
-						<template slot-scope="scope">
-							<el-button  type="text" size="small">编辑</el-button>
-                            <el-button  type="text" size="small">删除</el-button>
-						</template>
-					</el-table-column>
-				</template>
-        </pagePanel>
-        <el-dialog :title="title" :visible.sync="dialogFormVisible" width="900px" top='2vh'>
-			<detail ref="detail" />
+		<pagePanel :searchForm="searchForm" :showSearch="false" 
+		:url="apis.cmpMng.roleMng.find"
+		fromType="roles"
+		ref="pagePanel"
+		>
+			<template slot="operation-bar">
+				<el-button type="primary" size="small" @click="onAdd">新增角色</el-button>
+			</template>
+			<template slot="column">
+				<el-table-column prop="roleName" label="角色名称"></el-table-column>
+				<el-table-column prop="description" label="描述"></el-table-column>
+				<el-table-column prop="createTime" label="创建时间"></el-table-column>
+				<el-table-column fixed="left" label="操作">
+					<template slot-scope="scope">
+						<el-button type="text" @click="editRole(scope.row)">编辑</el-button>
+						<el-button type="text" >删除</el-button>
+					</template>
+				</el-table-column>
+			</template>
+		</pagePanel>
+		<el-dialog :title="title" :visible.sync="dialogFormVisible" width="900px" top="2vh">
+			<detail ref="detail" @roleSuccess="roleSuccess"
+			:roleObj="roleObj"
+			 :permissions="permissions"/>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="dialogFormVisible = false">取消</el-button>
-				<el-button type="primary" @click="onConfirm">确定</el-button>
+				<el-button @click="dialogFormVisible = false" size="medium">取消</el-button>
+				<el-button type="primary" @click="onConfirm" size="medium">确定</el-button>
 			</div>
 		</el-dialog>
 	</div>
@@ -28,15 +34,20 @@
 <script>
 import pagePanel from '@/components/pagePanel/pagePanel'
 import detail from './detail'
+import { getPermissions } from '@/request/apis/cmpMng'
+import apis from '@/request/apis/apis'
 export default {
 	components: {
-        pagePanel,
-        detail
+		pagePanel,
+		detail
 	},
 	data() {
 		return {
-            title:'',
-            dialogFormVisible:false,
+			roleObj:{},
+			apis,
+			permissions: [],
+			title: '',
+			dialogFormVisible: false,
 			tableData: [
 				{
 					name: '买买买科技有限公司',
@@ -55,14 +66,41 @@ export default {
 			],
 			searchForm: {}
 		}
-    },
-    methods:{
-        onConfirm(){},
-        onAdd(){
-            this.title = '新增员工'
-            this.dialogFormVisible = true
-        }
-    }
+	},
+	methods: {
+		editRole(row){
+			this.title = '编辑角色'
+			this.roleObj = row
+			this.dialogFormVisible = true
+		},
+		roleSuccess() {
+			this.$message.success({
+				message: '添加成功'
+			})
+			this.dialogFormVisible = false
+			this.$refs.pagePanel.reloadData()
+		},
+		onConfirm() {
+			this.$refs.detail.onConfirm()
+		},
+		onAdd() {
+			this.title = '新增角色'
+			this.roleObj = {}
+			this.dialogFormVisible = true
+		}
+	},
+	created() {
+		getPermissions().then(res => {
+			console.log(res)
+			if (res.code == '0') {
+				this.permissions = res.data.permissions
+			} else {
+				this.$message.error({
+					message: res.msg
+				})
+			}
+		})
+	}
 }
 </script>
 
