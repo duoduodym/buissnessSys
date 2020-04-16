@@ -1,4 +1,4 @@
-import {get,post,put} from '../http'
+import {get,post,put,Delete} from '../http'
 
 /**********
  * 新增员工
@@ -23,5 +23,11 @@ export function getPermissions(){
  * 新增角色
  * ********* */
 export function updateRole(id,data){
-    return put('/roles?roleId='+id,data)
+    return put('/roles/'+id,data)
+}
+/**********
+ * 删除角色
+ * ********* */
+export function delRole(id){
+    return Delete('/roles/'+id)
 }

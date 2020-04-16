@@ -5,7 +5,7 @@ const apis = {
             find:'/tenant-admin/employees/search'
         },
         roleMng:{
-            find:'/roles?tenantId=1'
+            find:'/roles'
         }
 
     }

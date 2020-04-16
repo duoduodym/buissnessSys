@@ -23,6 +23,7 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
 	response => {
+        console.log(response)
 		return Promise.resolve(response);
 	}, 
 	error => {
@@ -32,6 +33,7 @@ axios.interceptors.response.use(
 	}
 )
 export function get(url, params){    
+    params.tenantId = '4ed3e7ff-89b3-4308-87dc-a583d076510d'
     return new Promise((resolve, reject) =>{        
         axios.get(url, {            
             params: params        
@@ -49,11 +51,12 @@ export function get(url, params){
  * @param {String} url [请求的url地址] 
  * @param {Object} params [请求时携带的参数] 
  */
-export function post(url, params) {    
+export function post(url, params) {  
+    if(!params.tenantId)  params.tenantId = '4ed3e7ff-89b3-4308-87dc-a583d076510d'
     return new Promise((resolve, reject) => {         
         axios.post(url, params)        
         .then(res => {            
-            resolve(res);        
+            resolve(res.data);        
         })        
         .catch(err => {            
             reject(err)        
@@ -64,7 +67,21 @@ export function put(url, params) {
     return new Promise((resolve, reject) => {         
         axios.put(url, params)        
         .then(res => {            
-            resolve(res);        
+            resolve(res.data);        
+        })        
+        .catch(err => {            
+            reject(err)        
+        })    
+    });
+}
+export function Delete(url) {  
+    if(!url.includes('tenantId')){
+        url+=`?tenantId=4ed3e7ff-89b3-4308-87dc-a583d076510d`
+    }  
+    return new Promise((resolve, reject) => {         
+        axios.delete(url)        
+        .then(res => {            
+            resolve(res.data);        
         })        
         .catch(err => {            
             reject(err)        

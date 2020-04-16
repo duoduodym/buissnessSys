@@ -44,7 +44,6 @@ export default {
 	data() {
 		return {
 			ruleForm: {
-				tenantId: '1',
 				permissions: []
 			},
 			rules: {
@@ -75,9 +74,6 @@ export default {
 					if (!this.ruleForm.permissions) {
 						this.$set(this.ruleForm, 'permissions', [])
 					}
-					if (!this.ruleForm.tenantId) {
-						this.ruleForm.tenantId = '1'
-					}
 				})
 			},
 			immediate: true
@@ -91,8 +87,8 @@ export default {
 						createRole(this.ruleForm)
 							.then(res => {
 								console.log(res)
-								if (res.data.code == '0') {
-									this.$emit('roleSuccess')
+								if (res.code == '0') {
+									this.$emit('roleSuccess','add')
 								} else {
 									this.$message.error({
 										message: res.msg
@@ -105,8 +101,8 @@ export default {
 					}else{
 						updateRole(this.ruleForm.roleId,this.ruleForm).then(res => {
 								console.log(res)
-								if (res.data.code == '0') {
-									this.$emit('roleSuccess')
+								if (res.code == '0') {
+									this.$emit('roleSuccess','edit')
 								} else {
 									this.$message.error({
 										message: res.msg
