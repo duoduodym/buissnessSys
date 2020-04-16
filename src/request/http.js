@@ -55,10 +55,12 @@ export function post(url, params) {
     if(!params.tenantId)  params.tenantId = '4ed3e7ff-89b3-4308-87dc-a583d076510d'
     return new Promise((resolve, reject) => {         
         axios.post(url, params)        
-        .then(res => {            
+        .then(res => {      
+            console.log(2222222)            
             resolve(res.data);        
         })        
-        .catch(err => {            
+        .catch(err => {   
+            console.log(123123123)         
             reject(err)        
         })    
     });

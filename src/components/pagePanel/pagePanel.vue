@@ -58,6 +58,7 @@ export default {
 		},
 		getData() {
 			get(this.url, this.pageParams).then(res => {
+				console.log(res)
 				if (res.code == '0') {
 					this.tableData = res.data[this.fromType]
 					this.total = res.data.count

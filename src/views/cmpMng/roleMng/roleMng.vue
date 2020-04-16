@@ -16,8 +16,8 @@
 				<el-table-column prop="createTime" label="创建时间"></el-table-column>
 				<el-table-column fixed="left" label="操作">
 					<template slot-scope="scope">
-						<el-button type="text" @click="editRole(scope.row)">编辑</el-button>
-						<el-button type="text" @click="delRole(scope.row)">删除</el-button>
+						<el-button type="text" @click="editRole(scope.row)" class="table-btn-blue">编辑</el-button>
+						<el-button type="text" @click="delRole(scope.row)" class="table-btn-red">删除</el-button>
 					</template>
 				</el-table-column>
 			</template>

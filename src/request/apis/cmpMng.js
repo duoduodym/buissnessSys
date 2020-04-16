@@ -17,7 +17,7 @@ export function createRole(data){
  * 权限列表
  * ********* */
 export function getPermissions(){
-    return get('/roles/available-permissions')
+    return get('/roles/available-permissions',{})
 }
 /**********
  * 新增角色
