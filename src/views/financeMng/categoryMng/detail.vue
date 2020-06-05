@@ -1,62 +1,105 @@
 <template>
-	<div class="detail">
-		<el-row class="panel-title">
-			<el-col :span="24">
-				<span>基本信息</span>
-			</el-col>
-		</el-row>
-		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-			<el-row style="margin-top:20px">
-				<el-col :span="12">
-					<el-form-item label="角色名称" prop="name">
-						<el-input v-model="ruleForm.newPsd" placeholder="企业名称"></el-input>
-					</el-form-item>
-				</el-col>
-			</el-row>
-			<el-row>
-				<el-col :span="12">
-					<el-form-item label="描述" prop="name">
-						<el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="textarea"></el-input>
-					</el-form-item>
-				</el-col>
-			</el-row>
-			<el-row>
-				<el-col :span="24">
-					<el-form-item label="权限" prop="name">
-						<el-checkbox-group v-model="checkList">
-							<el-checkbox label="1">采购员</el-checkbox>
-							<el-checkbox label="2">营收员</el-checkbox>
-							<el-checkbox label="3">出纳</el-checkbox>
-							<el-checkbox label="4">会计</el-checkbox>
-							<el-checkbox label="5">老板</el-checkbox>
-						</el-checkbox-group>
-					</el-form-item>
-				</el-col>
-			</el-row>
-		</el-form>
-	</div>
+  <div class="detail">
+    <el-row class="panel-title">
+      <el-col :span="24">
+        <span>基本信息</span>
+      </el-col>
+    </el-row>
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+      <el-row style="margin-top:20px">
+        <el-col :span="12">
+          <el-form-item label="分类" prop="costCategoryName">
+            <el-input v-model.trim="ruleForm.costCategoryName" placeholder="请输入分类"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+  </div>
 </template>
-
 <script>
+import { createCatetory,updateCatetory} from "@/request/apis/catetory";
+import { deepClone } from '@/libs/util/utils'
 export default {
-	props: {},
-	data() {
-		return {
-			ruleForm: {},
-			rules: {},
-			checkList: []
-		}
-	}
-}
+  props: {
+    categoryObj: Object
+  },
+  data() {
+    return {
+      ruleForm: {},
+      rules: {
+        costCategoryName: [
+          {
+            required: true,
+            message: "请输入分类",
+            trigger: "blur"
+          }
+        ]
+      }
+    };
+  },
+  watch: {
+    categoryObj: {
+      handler(val) {
+		  this.$nextTick(()=>{
+			  this.clearForm()
+			  this.ruleForm = deepClone(val)   
+		  })
+		
+	  },
+	  immediate:true
+	 
+    }
+  },
+  methods: {
+    onConfirm() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          if (!this.ruleForm.costCategoryId) {
+            createCatetory(this.ruleForm)
+              .then(res => {
+                if (res.code == "0") {
+                  this.$emit("categorySuccess", "add");
+                } else {
+                  this.$message.error({
+                    message: res.msg
+                  });
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          } else {
+            updateCatetory(this.ruleForm.costCategoryId, this.ruleForm)
+              .then(res => {
+                if (res.code == "0") {
+                  this.$emit("categorySuccess", "edit");
+                } else {
+                  this.$message.error({
+                    message: res.msg
+                  });
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+        }
+      });
+    },
+    clearForm() {
+      this.$refs.ruleForm.clearValidate();
+    }
+  }
+};
 </script>
 
 <style scoped lang="less">
 .panel-title {
-	height: 40px;
-	background: #f5f5f5;
-	color: #333;
-	padding: 0 20px;
-	font-size: 16px;
-	line-height: 40px;
+  height: 40px;
+  background: #f5f5f5;
+  color: #333;
+  padding: 0 20px;
+  font-size: 16px;
+  line-height: 40px;
 }
 </style>

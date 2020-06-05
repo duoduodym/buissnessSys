@@ -45,7 +45,8 @@
 export default {
 	data() {
 		return {
-			ruleForm: {}
+			ruleForm: {},
+			rules:{}
 		}
 	}
 }

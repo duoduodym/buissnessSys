@@ -70,3 +70,11 @@ a:hover {
 .el-button--small{
   font-size: 14px;
 }
+.table-btn-blue{
+  color: #409eff;
+  padding: 0 4px;
+}
+.table-btn-red{
+  color: #f56c6c;
+  padding: 0 4px;
+}

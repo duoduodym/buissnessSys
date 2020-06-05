@@ -2,12 +2,17 @@ const apis = {
     //企业
     cmpMng:{
         employeeMng:{
-            find:'/tenant-admin/employees/search'
+            find:'/employees'
         },
         roleMng:{
-            find:'/roles?tenantId=1'
+            find:'/roles'
         }
 
+    },
+    financeMng:{
+        categoryMng:{
+            find:'/cost-categories'
+        } 
     }
 }
 export default apis
