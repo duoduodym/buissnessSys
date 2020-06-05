@@ -46,6 +46,7 @@ export function updateRole(id,data){
  * ********* */
 export function delRole(id){
     return Delete('/roles/'+id)
+<<<<<<< HEAD
 }
 /**********
  * 获取角色列表
@@ -53,3 +54,6 @@ export function delRole(id){
 export function getRoles(){
     return get('/roles')
 }
+=======
+}
+>>>>>>> origin/master

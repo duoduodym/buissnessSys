@@ -96,7 +96,11 @@ export default {
       this.$message.success({
         message: str
       });
+<<<<<<< HEAD
       this.$refs.pagePanel.onSearch();
+=======
+      this.$refs.pagePanel.reloadData();
+>>>>>>> origin/master
       this.dialogFormVisible = false;
     },
     onConfirm() {

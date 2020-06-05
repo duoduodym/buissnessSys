@@ -41,6 +41,7 @@ export default {
     roleObj: Object
   },
 
+<<<<<<< HEAD
   data() {
     return {
       ruleForm: {
@@ -121,6 +122,88 @@ export default {
     }
   }
 };
+=======
+	data() {
+		return {
+			ruleForm: {
+				permissions: []
+			},
+			rules: {
+				roleName: [
+					{
+						required: true,
+						message: '请输入角色名称',
+						trigger: 'blur'
+					}
+				],
+				permissions: [
+					{
+						required: true,
+						message: '请选择权限',
+						trigger: 'blur'
+					}
+				]
+			},
+			checkList: []
+		}
+	},
+	watch: {
+		roleObj: {
+			handler(val) {
+				this.$nextTick(() => {
+					this.clearForm()
+					this.ruleForm = deepClone(val)
+					if (!this.ruleForm.permissions) {
+						this.$set(this.ruleForm, 'permissions', [])
+					}
+				})
+			},
+			immediate: true
+		}
+	},
+	methods: {
+		onConfirm() {
+			this.$refs.ruleForm.validate(valid => {
+				if (valid) {
+					if (!this.ruleForm.roleId) {
+						createRole(this.ruleForm)
+							.then(res => {
+								console.log(res)
+								if (res.code == '0') {
+									this.$emit('roleSuccess','add')
+								} else {
+									this.$message.error({
+										message: res.msg
+									})
+								}
+							})
+							.catch(err => {
+								console.log(err)
+							})
+					}else{
+						updateRole(this.ruleForm.roleId,this.ruleForm).then(res => {
+								console.log(res)
+								if (res.code == '0') {
+									this.$emit('roleSuccess','edit')
+								} else {
+									this.$message.error({
+										message: res.msg
+									})
+								}
+							})
+							.catch(err => {
+								console.log(err)
+							})
+					}
+				}
+			})
+		},
+		clearForm() {
+			this.$refs.ruleForm.clearValidate()
+		}
+	}
+}
+>>>>>>> origin/master
 </script>
 
 <style scoped lang="less">
