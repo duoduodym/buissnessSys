@@ -63,11 +63,7 @@ export default {
 					delRole(row.roleId).then(res => {
 						if(res.code == '0'){
 							this.$message.success('删除成功')
-<<<<<<< HEAD
 							this.$refs.pagePanel.onSearch()
-=======
-							this.$refs.pagePanel.reloadData()
->>>>>>> origin/master
 						}else{
 							this.$message.error({
 								message: res.msg

@@ -23,7 +23,6 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
 	response => {
-        console.log(response)
 		return Promise.resolve(response);
 	}, 
 	error => {
@@ -32,13 +31,8 @@ axios.interceptors.response.use(
 		}
 	}
 )
-<<<<<<< HEAD
 export function get(url, params={}){    
     params.tenantId = '303c2f92-ea05-416c-a300-eaafe77c8030'
-=======
-export function get(url, params){    
-    params.tenantId = '4ed3e7ff-89b3-4308-87dc-a583d076510d'
->>>>>>> origin/master
     return new Promise((resolve, reject) =>{        
         axios.get(url, {            
             params: params        
@@ -57,7 +51,6 @@ export function get(url, params){
  * @param {Object} params [请求时携带的参数] 
  */
 export function post(url, params) {  
-<<<<<<< HEAD
     if(!params.tenantId)  params.tenantId = '303c2f92-ea05-416c-a300-eaafe77c8030'
     return new Promise((resolve, reject) => {         
         axios.post(url, params)        
@@ -65,17 +58,6 @@ export function post(url, params) {
             resolve(res.data);        
         })        
         .catch(err => {       
-=======
-    if(!params.tenantId)  params.tenantId = '4ed3e7ff-89b3-4308-87dc-a583d076510d'
-    return new Promise((resolve, reject) => {         
-        axios.post(url, params)        
-        .then(res => {      
-            console.log(2222222)            
-            resolve(res.data);        
-        })        
-        .catch(err => {   
-            console.log(123123123)         
->>>>>>> origin/master
             reject(err)        
         })    
     });
@@ -91,16 +73,10 @@ export function put(url, params) {
         })    
     });
 }
-<<<<<<< HEAD
 console.log(123123112312312312)
 export function Delete(url) {  
     if(!url.includes('tenantId')){
         url+=`?tenantId=303c2f92-ea05-416c-a300-eaafe77c8030`
-=======
-export function Delete(url) {  
-    if(!url.includes('tenantId')){
-        url+=`?tenantId=4ed3e7ff-89b3-4308-87dc-a583d076510d`
->>>>>>> origin/master
     }  
     return new Promise((resolve, reject) => {         
         axios.delete(url)        

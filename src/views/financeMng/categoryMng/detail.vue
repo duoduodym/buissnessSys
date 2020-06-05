@@ -71,11 +71,6 @@ export default {
           } else {
             updateCatetory(this.ruleForm.costCategoryId, this.ruleForm)
               .then(res => {
-<<<<<<< HEAD
-=======
-				  console.log(res)
-				   console.log(222222222)
->>>>>>> origin/master
                 if (res.code == "0") {
                   this.$emit("categorySuccess", "edit");
                 } else {

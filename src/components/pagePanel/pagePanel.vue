@@ -32,7 +32,6 @@
 import { get, post } from "@/request/http";
 
 export default {
-<<<<<<< HEAD
   props: {
     fromType: String,
     url: String,
@@ -95,54 +94,6 @@ export default {
     this.getData();
   }
 };
-=======
-	props: {
-		fromType: String,
-		url: String,
-		searchForm: Object,
-		showSearch: {
-			type: Boolean,
-			default: true
-		}
-	},
-	data() {
-		return {
-			total: 0,
-			tableData: [],
-			pageParams: {
-				limit: 10,
-				offset: 0
-			},
-			currentPage1:1
-		}
-	},
-	methods: {
-		handleCurrentChange(val){
-			this.pageParams.offset = (val-1) * this.pageParams.limit
-			this.reloadData()
-		},
-		getData() {
-			get(this.url, this.pageParams).then(res => {
-				console.log(res)
-				if (res.code == '0') {
-					this.tableData = res.data[this.fromType]
-					this.total = res.data.count
-				} else {
-					this.$message.error({
-						message: res.msg
-					})
-				}
-			})
-		},
-		reloadData() {
-			this.getData()
-		}
-	},
-	created() {
-		this.getData()
-	}
-}
->>>>>>> origin/master
 </script>
 
 <style scoped lang="less">
