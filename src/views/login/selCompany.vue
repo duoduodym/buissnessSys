@@ -1,7 +1,7 @@
 <template>
   <div class="selCompany">
     <div v-for="(item,index) in companyList" :key="index">
-      <span>{{item.name}}</span>
+      <span>{{item.enterpriseInfo.enterpriseName}}</span>
     </div>
   </div>
 </template>
