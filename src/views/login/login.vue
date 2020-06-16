@@ -6,7 +6,12 @@
       <div class="content-wrap">
         <div class="content-item">
           <em class="icon user fl"></em>
-          <input type="text" v-model.trim="loginParams.userName" class="fc-f" placeholder="请输入账号" />
+          <input
+            type="text"
+            v-model.trim="loginParams.contactPhone"
+            class="fc-f"
+            placeholder="请输入账号"
+          />
         </div>
         <div class="content-item">
           <em class="icon psd fl"></em>
@@ -25,7 +30,7 @@
         <div class="login-btn cur-p" @click="onLogin">登录</div>
       </div>
     </div>
-    <el-dialog :title="选择企业" :visible.sync="showDialog" width="900px">
+    <el-dialog title="选择企业" :visible.sync="showDialog" width="900px">
       <selCompany :companyList="companyList" />
     </el-dialog>
   </div>
@@ -33,6 +38,7 @@
 
 <script>
 import selCompany from "./selCompany";
+import { getCompanyList, login } from "../../request/apis/login";
 export default {
   props: {},
   components: {
@@ -41,25 +47,64 @@ export default {
   data() {
     return {
       showDialog: false,
-      companyList: [
-        {
-          name: "革命者有限公司1"
-        },
-        {
-          name: "革命者有限公司2"
-        },
-        {
-          name: "革命者有限公司3"
-        }
-      ],
+      companyList: [],
       isRememberPsd: false,
       loginParams: {}
     };
   },
-  methods:{
-      onLogin(){
-          this.showDialog = true
+  methods: {
+    onLogin() {
+      //   this.showDialog = true
+      if (!this.loginParams.contactPhone) {
+        this.$message.error({
+          message: "请输入手机号码"
+        });
+        return;
       }
+      if (!this.loginParams.password) {
+        this.$message.error({
+          message: "请输入密码"
+        });
+        return;
+      }
+      getCompanyList(this.loginParams)
+        .then(res => {
+          console.log(res);
+          if (res.data.tenants && res.data.tenants.length) {
+            if (res.data.tenants.length == 1) {
+              this.loginParams.tenantId = res.data.tenants[0].tenantId;
+            } else {
+              this.companyList = res.data.tenants;
+              this.showDialog = true;
+            }
+          } else {
+            this.$message.error({
+              message: "该用户未绑定公司"
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          this.$message.error({
+            message: "请求失败"
+          });
+        });
+    },
+    doLogin() {
+      login(this.loginParams)
+        .then(res => {
+          let nextPath = this.$router.query.path | "../index/index";
+          this.$router.push({
+            path: nextPath
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          this.$message.error({
+            message: "请求失败"
+          });
+        });
+    }
   }
 };
 </script>
