@@ -67,12 +67,17 @@ export default {
         });
         return;
       }
-      getCompanyList(this.loginParams)
+      this.doLogin();
+      return;
+      getCompanyList({
+        phone: this.loginParams.contactPhone
+      })
         .then(res => {
           console.log(res);
           if (res.data.tenants && res.data.tenants.length) {
             if (res.data.tenants.length == 1) {
               this.loginParams.tenantId = res.data.tenants[0].tenantId;
+              this.doLogin();
             } else {
               this.companyList = res.data.tenants;
               this.showDialog = true;
@@ -91,9 +96,21 @@ export default {
         });
     },
     doLogin() {
+      this.loginParams.tenantId = "4c550d32-4972-4aea-8ac4-cdc550dd2db6";
       login(this.loginParams)
         .then(res => {
-          let nextPath = this.$router.query.path | "../index/index";
+          if (this.isRememberPsd) {
+            localStorage.isRememberPsd = true;
+            localStorage.contactPhone = this.loginParams.contactPhone;
+            localStorage.password = this.loginParams.password;
+          }
+          let companyInfo = res.data.tenant;
+          localStorage.companyInfo = JSON.stringify(companyInfo);
+          var nextPath;
+          (this.$router.query &&
+            this.$router.query.path &&
+            (nextPath = this.$router.query.path)) | (nextPath = "/login");
+          console.log(nextPath);
           this.$router.push({
             path: nextPath
           });
@@ -104,6 +121,13 @@ export default {
             message: "请求失败"
           });
         });
+    }
+  },
+  mounted() {
+    this.isRememberPsd = localStorage.isRememberPsd;
+    if (this.isRememberPsd) {
+      this.loginParams.contactPhone = localStorage.contactPhone;
+      this.loginParams.password = localStorage.password;
     }
   }
 };
