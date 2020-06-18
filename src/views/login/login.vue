@@ -39,6 +39,7 @@
 <script>
 import selCompany from "./selCompany";
 import { getCompanyList, login } from "../../request/apis/login";
+import { refreshCompany } from "../../libs/util/utils";
 export default {
   props: {},
   components: {
@@ -67,19 +68,21 @@ export default {
         });
         return;
       }
-      this.doLogin();
-      return;
+      // this.doLogin();
+      // return;
       getCompanyList({
-        phone: this.loginParams.contactPhone
+        contactPhone: this.loginParams.contactPhone
       })
         .then(res => {
           console.log(res);
           if (res.data.tenants && res.data.tenants.length) {
-            if (res.data.tenants.length == 1) {
-              this.loginParams.tenantId = res.data.tenants[0].tenantId;
+            let tenants = res.data.tenants;
+            if (tenants.length == 1) {
+              refreshCompany(tenants[0].tenantId);
+              this.loginParams.tenantId = tenants[0].tenantId;
               this.doLogin();
             } else {
-              this.companyList = res.data.tenants;
+              this.companyList = tenants;
               this.showDialog = true;
             }
           } else {
@@ -96,7 +99,6 @@ export default {
         });
     },
     doLogin() {
-      this.loginParams.tenantId = "4c550d32-4972-4aea-8ac4-cdc550dd2db6";
       login(this.loginParams)
         .then(res => {
           if (this.isRememberPsd) {
@@ -107,9 +109,12 @@ export default {
           let companyInfo = res.data.tenant;
           localStorage.companyInfo = JSON.stringify(companyInfo);
           var nextPath;
-          (this.$router.query &&
-            this.$router.query.path &&
-            (nextPath = this.$router.query.path)) | (nextPath = "/login");
+          this.$router.currentRoute.query &&
+            this.$router.currentRoute.query.redirect &&
+            (nextPath = this.$router.currentRoute.query.redirect);
+          if (!nextPath) {
+            nextPath = "/home";
+          }
           console.log(nextPath);
           this.$router.push({
             path: nextPath

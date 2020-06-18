@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    tenantId: "303c2f92-ea05-416c-a300-eaafe77c8030",
+    tenantId: "",
     token: "",
   },
   mutations: {

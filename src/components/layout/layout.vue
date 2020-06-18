@@ -13,7 +13,7 @@
 						<em class="icon m-psd"></em>
 						<span>修改密码</span>
 					</div>
-					<div class="m-item cur-p nb">
+					<div class="m-item cur-p nb" @click="onExit">
 						<em class="icon m-quit"></em>
 						<span>退出登录</span>
 					</div>
@@ -53,6 +53,7 @@
 import menuTree from '@/components/menuTree/menuTree'
 import modifyPsd from '@/components/modifyPsd/modifyPsd'
 import positionBar from '@/components/positionBar/positionBar'
+import {userExit} from '../../libs/util/utils'
 export default {
 	components: {
 		menuTree,
@@ -143,6 +144,10 @@ export default {
 			const H = this.$refs.container.offsetHeight
 			const H1 = this.$refs.header.offsetHeight
 			this.style.height = H - H1 - 1 + 'px'
+		},
+		// 退出登录
+		onExit(){
+			userExit()
 		}
 	},
 	created() {
