@@ -129,7 +129,8 @@ export default {
     }
   },
   mounted() {
-    this.isRememberPsd = localStorage.isRememberPsd;
+    this.isRememberPsd = !!localStorage.isRememberPsd;
+    console.log(localStorage)
     if (this.isRememberPsd) {
       this.loginParams.contactPhone = localStorage.contactPhone;
       this.loginParams.password = localStorage.password;
