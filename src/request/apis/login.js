@@ -4,7 +4,7 @@ if (process.env.NODE_ENV == 'development') {
 } else if (process.env.NODE_ENV == 'production') {
 	axios.defaults.baseURL = '';
 }
-axios.defaults.headers.common["Set-Authorization"] = "123123";
+axios.defaults.headers.common["Authorization"] = "123123";
 // 请求超时时间
 axios.defaults.timeout = 10000;
 // post请求头
@@ -16,16 +16,14 @@ axios.interceptors.request.use(
 		// 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
 		// const token = store.state.token;        
 		// token && (config.headers.Authorization = token);  
-		config.headers["Set-Authorization"] = "455454545"  
 		return config;
 	},
 	error => {
 		return Promise.error(error);
 	})
-// 响应拦截器
+//响应拦截器
 axios.interceptors.response.use(
 	response => {
-		
 		console.log(response)    
 		return Promise.resolve(response);
 	}, 
