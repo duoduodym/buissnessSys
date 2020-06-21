@@ -17,8 +17,8 @@
   </div>
 </template>
 <script>
-import { createCatetory,updateCatetory} from "@/request/apis/catetory";
-import { deepClone } from '@/libs/util/utils'
+import { createCatetory, updateCatetory } from "@/request/apis/catetory";
+import { deepClone, checkTenantId } from "@/libs/util/utils";
 export default {
   props: {
     categoryObj: Object
@@ -40,20 +40,20 @@ export default {
   watch: {
     categoryObj: {
       handler(val) {
-		  this.$nextTick(()=>{
-			  this.clearForm()
-			  this.ruleForm = deepClone(val)   
-		  })
-		
-	  },
-	  immediate:true
-	 
+        this.$nextTick(() => {
+          this.clearForm();
+          this.ruleForm = deepClone(val);
+        });
+      },
+      immediate: true
     }
   },
   methods: {
     onConfirm() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          checkTenantId()
+          this.ruleForm.tenantId = this.$store.state.tenantId;
           if (!this.ruleForm.costCategoryId) {
             createCatetory(this.ruleForm)
               .then(res => {

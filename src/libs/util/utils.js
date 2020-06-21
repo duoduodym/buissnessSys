@@ -48,5 +48,29 @@ export function refreshToken(token) {
   if (localStorage) {
     localStorage.token = token;
   }
-  store.commit("refreshToken", token);
+  store.state.token = token;
+}
+
+export function refreshCompany(tenantId) {
+  if (localStorage) {
+    localStorage.tenantId = tenantId;
+  }
+  store.state.tenantId = tenantId;
+}
+
+export function checkTenantId() {
+  if (store.state.tenantId) {
+    return;
+  }
+  if (localStorage) {
+    let tenantId = localStorage.tenantId;
+    store.state.tenantId = tenantId;
+  }
+}
+
+export function userExit() {
+  if (localStorage) {
+    localStorage.token = "";
+  }
+  store.commit("refreshToken", "");
 }

@@ -17,11 +17,7 @@ new Vue({
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requireAuth)) {
     if (store.getters.getToken) {
-      if (to.path === "/login") {
-        window.location.reload();
-      } else {
-        next();
-      }
+      next();
     } else {
       next({
         path: "/login",

@@ -34,7 +34,7 @@
 </template>
 <script>
 import { createRole, updateRole } from "@/request/apis/cmpMng";
-import { deepClone } from "@/libs/util/utils";
+import { deepClone, checkTenantId } from "@/libs/util/utils";
 export default {
   props: {
     permissions: Array,
@@ -82,8 +82,12 @@ export default {
     onConfirm() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          if (!this.ruleForm.roleId) {
-            createRole(this.ruleForm)
+          checkTenantId();
+          console.log(this.$store.state.tenantId);
+          let form = deepClone(this.ruleForm);
+          form.tenantId = this.$store.state.tenantId;
+          if (!form.roleId) {
+            createRole(form)
               .then(res => {
                 console.log(res);
                 if (res.code == "0") {
@@ -98,7 +102,7 @@ export default {
                 console.log(err);
               });
           } else {
-            updateRole(this.ruleForm.roleId, this.ruleForm)
+            updateRole(form.roleId, form)
               .then(res => {
                 console.log(res);
                 if (res.code == "0") {
