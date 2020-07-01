@@ -61,8 +61,8 @@ export default {
     referenceUpload(e) {
       console.log(123123123);
       const files = e.target.files;
-      console.log(files);
-      pushImage()
+      console.log(files[0]);
+      pushImage(files[0])
       .then(res=>{
         console.log(res)
       })
