@@ -32,7 +32,7 @@
         <el-col :span="12">
           <el-form-item label="企业logo">
             <div class="upload-btn cur-p">
-              <input type="file" class="upload-input" />
+              <input type="file" class="upload-input" @change="referenceUpload" />
             </div>
           </el-form-item>
         </el-col>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { pushImage } from "../../../request/apis/file";
 export default {
   data() {
     return {
@@ -54,6 +55,20 @@ export default {
     if (companyInfoStr) {
       this.ruleForm = JSON.parse(companyInfoStr).enterpriseInfo;
       console.log(this.ruleForm);
+    }
+  },
+  methods: {
+    referenceUpload(e) {
+      console.log(123123123);
+      const files = e.target.files;
+      console.log(files);
+      pushImage()
+      .then(res=>{
+        console.log(res)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
     }
   }
 };

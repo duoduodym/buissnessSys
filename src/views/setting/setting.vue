@@ -15,9 +15,9 @@
 			</el-row>
 			<el-row>
 				<el-col :span="12">
-					<el-form-item label="企业logo">
+					<el-form-item label="企业logo1111">
 						<div class="upload-btn cur-p">
-							<input type="file" class="upload-input" />
+							<input type="file" class="upload-input"  @change="referenceUpload"/>
 						</div>
 					</el-form-item>
 				</el-col>
@@ -41,6 +41,13 @@ export default {
 		return {
 			ruleForm: {},
 			rules: {}
+		}
+	},
+	methods:{
+		referenceUpload(e){
+			console.log(123123123)
+			const files = e.target.files
+			console.log(files)
 		}
 	}
 }
