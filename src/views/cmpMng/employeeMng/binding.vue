@@ -41,9 +41,9 @@
       <el-row>
         <el-col :span="24">
           <div class="binding-box">
-              <span class="weChat-icon"></span>
-              <el-input v-model="openId" class="ml-10 bind-input"></el-input>
-              <el-button @click="onBinding(employeeObj.employeeId)" class="ml-10">绑定</el-button>
+            <span class="weChat-icon"></span>
+            <el-input v-model="openId" class="ml-10 bind-input"></el-input>
+            <el-button @click="onBinding(employeeObj.employeeId)" class="ml-10">绑定</el-button>
           </div>
         </el-col>
       </el-row>
@@ -53,9 +53,10 @@
 </template>
 
 <script>
-var aa = '123123'
+var aa = "123123";
 import { bindingEmployees } from "@/request/apis/cmpMng";
-import store from '@/store'
+import { checkTenantId } from "@/libs/util/utils";
+import store from "@/store";
 export default {
   props: {
     roles: Array,
@@ -72,20 +73,21 @@ export default {
       bindingEmployees(id, {
         wechatNumber: this.openId,
         employeeId: id
-      }).then(res => {
-
-      });
+      }).then(res => {});
     }
   },
-  computed:{
-    tid(){
-      return this.$store.state.tenantId
+  computed: {
+    tid() {
+      return this.$store.state.tenantId;
     }
   },
   mounted() {
-    let state = `${this.tid}|${this.employeeObj.employeeId}`
+    checkTenantId();
+    console.log(this.tid);
+
+    let state = `${this.tid}|${this.employeeObj.employeeId}`;
     var obj = new WxLogin({
-      self_redirect: false,
+      self_redirect: true,
       id: "login_container",
       appid: "wxfe4004088aebbda1&redirect_uri",
       scope: "snsapi_login",
@@ -116,12 +118,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top:10px ;
+  padding-top: 10px;
   span {
     margin-left: 4px;
   }
-  .bind-input{
-    flex:1;
+  .bind-input {
+    flex: 1;
   }
   .weChat-icon {
     display: block;

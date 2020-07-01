@@ -15,6 +15,8 @@ new Vue({
 }).$mount("#app");
 
 router.beforeEach((to, from, next) => {
+  console.log('beforeEach')
+  console.log(from)
   if (to.matched.some((record) => record.meta.requireAuth)) {
     if (store.getters.getToken) {
       next();
