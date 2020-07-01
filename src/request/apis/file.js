@@ -91,11 +91,13 @@ export function getCos(){
             })
         }
     })
+    return cos
 }
 
 export function pushImage(imageFile){
     return new Promise((resolve,reject)=>{
         var cos = getCos()
+        console.log(cos)
         cos.putObject({
             Bucket: 'fzg-1300449266', /* 必须 */
             Region: 'ap-shanghai',     /* 存储桶所在地域，必须字段 */
