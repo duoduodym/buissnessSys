@@ -33,16 +33,19 @@
           <el-form-item label="企业logo">
             <div class="upload-btn cur-p">
               <input type="file" class="upload-input" @change="referenceUpload" />
+              <img :src="ruleForm.enterpriseLogoUrl" class="img-logo" />
             </div>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
+    <el-button type="primary" class="confim-btn" @click="onSave">保存</el-button>
   </div>
 </template>
 
 <script>
 import { pushImage } from "../../../request/apis/file";
+import { updataCompanyInfo } from "../../../request/apis/cmpMng";
 export default {
   data() {
     return {
@@ -61,14 +64,18 @@ export default {
     referenceUpload(e) {
       console.log(123123123);
       const files = e.target.files;
+      // this.ruleForm.enterpriseLogoUrl = files[0].
       console.log(files[0]);
       pushImage(files[0])
-      .then(res=>{
-        console.log(res)
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onSave() {
+      updataCompanyInfo(this.ruleForm);
     }
   }
 };
@@ -92,5 +99,14 @@ export default {
     height: 100%;
     opacity: 0;
   }
+}
+.confim-btn {
+  margin-left: 30px;
+  margin-top: 30px;
+  width: 100px;
+}
+.img-logo {
+  height: 80px;
+  width: 80px;
 }
 </style>
