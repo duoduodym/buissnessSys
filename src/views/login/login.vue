@@ -123,7 +123,7 @@ export default {
         .catch(error => {
           console.log(error);
           this.$message.error({
-            message: "请求失败"
+            message: "登录失败，请确认账号密码是否正确"
           });
         });
     }
