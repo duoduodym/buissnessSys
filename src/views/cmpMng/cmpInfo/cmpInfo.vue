@@ -23,7 +23,7 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="企业地址" prop="name">
+          <el-form-item label="企业地址" prop="address">
             <el-input v-model="ruleForm.enterpriseAddress" placeholder="请输入企业地址"></el-input>
           </el-form-item>
         </el-col>
@@ -33,21 +33,35 @@
           <el-form-item label="企业logo">
             <div class="upload-btn cur-p">
               <input type="file" class="upload-input" @change="referenceUpload" />
+              <img :src="ruleForm.enterpriseLogoUrl" class="img-logo" />
             </div>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
+    <el-button type="primary" class="confim-btn" @click="onSave">保存</el-button>
   </div>
 </template>
 
 <script>
 import { pushImage } from "../../../request/apis/file";
+import { updataCompanyInfo } from "../../../request/apis/cmpMng";
 export default {
   data() {
     return {
       ruleForm: {},
-      rules: {}
+      rules: {
+        name: {
+          required: true,
+          message: "请输入企业名称",
+          trigger: "blur"
+        },
+        address: {
+          required: true,
+          message: "请输入企业地址",
+          trigger: "blur"
+        }
+      }
     };
   },
   mounted() {
@@ -63,12 +77,28 @@ export default {
       const files = e.target.files;
       console.log(files[0]);
       pushImage(files[0])
-      .then(res=>{
-        console.log(res)
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+        .then(res => {
+          this.$set(
+            this.ruleForm,
+            "enterpriseLogoUrl",
+            "http://" + res.Location
+          );
+          // this.ruleForm.enterpriseLogoUrl = "http://"+res.Location
+          console.log(this.ruleForm);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onSave() {
+      if (
+        this.ruleForm.enterpriseName &&
+        this.ruleForm.enterpriseScale &&
+        this.ruleForm.enterpriseAddress
+      ) {
+        console.log(JSON.stringify(this.ruleForm))
+        updataCompanyInfo(this.ruleForm);
+      }
     }
   }
 };
@@ -92,5 +122,14 @@ export default {
     height: 100%;
     opacity: 0;
   }
+}
+.confim-btn {
+  margin-left: 30px;
+  margin-top: 30px;
+  width: 100px;
+}
+.img-logo {
+  height: 80px;
+  width: 80px;
 }
 </style>

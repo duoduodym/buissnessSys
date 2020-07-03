@@ -59,3 +59,12 @@ export function delRole(id) {
 export function getRoles() {
   return get("/roles");
 }
+
+export function updataCompanyInfo(data){
+  return post("/update-tenant-info", data);
+}
+
+
+export function resetPassword(data){
+  return post("/reset-password", data);
+}
