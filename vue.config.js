@@ -1,12 +1,8 @@
 module.exports = {
-    // cli3 代理是从指定的target后面开始匹配的，不是任意位置；配置pathRewrite可以做替换
-    devServer: {
-      proxy: {
-        '/your api': {
-          target: 'your server',
-          changeOrigin: true,
-          pathRewrite: { }
-        }
-      }
-    }
+  publicPath: './', // 根路径
+  outputDir: 'dist', // 构建输出目录
+  lintOnSave: false, // 是否开启eslint保存检测,有效值（true||false||error)
+  devServer: {
+    port: 8000
   }
+}
