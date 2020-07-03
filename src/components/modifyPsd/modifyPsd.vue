@@ -69,7 +69,7 @@ export default {
           })
             .then(res => {
               console.log(res);
-              if (res.data && res.data.code == 0) {
+              if (res && res.code == 0) {
                 this.$router.push({
                   path: "/login"
                 });

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -82,6 +83,23 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  console.log('beforeEach')
+  console.log(from)
+  if (to.matched.some((record) => record.meta.requireAuth)) {
+    if (store.getters.getToken) {
+      next();
+    } else {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath }, // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      });
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

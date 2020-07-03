@@ -14,19 +14,4 @@ new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
-router.beforeEach((to, from, next) => {
-  console.log('beforeEach')
-  console.log(from)
-  if (to.matched.some((record) => record.meta.requireAuth)) {
-    if (store.getters.getToken) {
-      next();
-    } else {
-      next({
-        path: "/login",
-        query: { redirect: to.fullPath }, // 将跳转的路由path作为参数，登录成功后跳转到该路由
-      });
-    }
-  } else {
-    next();
-  }
-});
+
