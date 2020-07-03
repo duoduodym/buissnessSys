@@ -61,5 +61,10 @@ export function getRoles() {
 }
 
 export function updataCompanyInfo(data){
-  return post("/tenant-admin/update-tenant-info", data);
+  return post("/update-tenant-info", data);
+}
+
+
+export function resetPassword(data){
+  return post("/reset-password", data);
 }

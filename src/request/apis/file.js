@@ -2,11 +2,15 @@ import axios from "axios";
 import store from "../../store";
 import routers from "../../router";
 import { refreshToken } from "../../libs/util/utils";
+import { checkTenantId } from "@/libs/util/utils";
+
 const prefixAxios = axios.create({
   baseURL: "https://fzg.fzzxwl.com:31886",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin":"*",
+    "Access-Control-Expose-Headers":"Authorization"
   },
   transformRequest:function(data, headers) {
     var result = data;
@@ -37,17 +41,13 @@ const prefixAxios = axios.create({
   }
 });
 
-prefixAxios.defaults.headers["Content-Type"] = "application/json";
-prefixAxios.defaults.headers["Access-Control-Allow-Origin"] = "*";
-prefixAxios.defaults.headers["Access-Control-Expose-Headers"] = "Authorization";
-
 export function getCosToken() {
   return new Promise((resolve, reject) => {
     prefixAxios
-      .post("/tencent-cloud/sts/cos/federation-token/in-tenant-admin")
+      .get("/tencent-cloud/sts/cos/federation-token/in-tenant-admin")
       .then((res) => {
         console.log(res);
-        resolve(res.data);
+        resolve(res);
       })
       .catch((err) => {
         reject(err);
@@ -62,19 +62,19 @@ export function getCos(){
         getAuthorization: function (options, callback) {
             getCosToken()
             .then(res=>{
-                if (res.data.code == '0') {
+                if (res.data.code == 0) {
                     const sessionToken = res.data.data.cosFederationToken.credentials.sessionToken
                     const tmpSecretId = res.data.data.cosFederationToken.credentials.tmpSecretId
                     const tmpSecretKey = res.data.data.cosFederationToken.credentials.tmpSecretKey
-                    const startTime = res.data.data.cosFederationToken.credentials.startTime
-                    const expiredTime = res.data.data.cosFederationToken.credentials.expiredTime
-                    console.log(JSON.stringify({
+                    const startTime = res.data.data.cosFederationToken.startTime
+                    const expiredTime = res.data.data.cosFederationToken.expiredTime
+                    console.log({
                         TmpSecretId: tmpSecretId,
                         TmpSecretKey: tmpSecretKey,
                         XCosSecurityToken: sessionToken,
                         ExpiredTime: expiredTime,
                         StartTime:startTime
-                    }))
+                    })
                     callback({
                         TmpSecretId: tmpSecretId,
                         TmpSecretKey: tmpSecretKey,
@@ -97,7 +97,7 @@ export function getCos(){
 export function pushImage(imageFile){
     return new Promise((resolve,reject)=>{
         var cos = getCos()
-        console.log(cos)
+        checkTenantId()
         cos.putObject({
             Bucket: 'fzg-1300449266', /* 必须 */
             Region: 'ap-shanghai',     /* 存储桶所在地域，必须字段 */

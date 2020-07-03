@@ -23,7 +23,7 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="企业地址" prop="name">
+          <el-form-item label="企业地址" prop="address">
             <el-input v-model="ruleForm.enterpriseAddress" placeholder="请输入企业地址"></el-input>
           </el-form-item>
         </el-col>
@@ -50,7 +50,18 @@ export default {
   data() {
     return {
       ruleForm: {},
-      rules: {}
+      rules: {
+        name: {
+          required: true,
+          message: "请输入企业名称",
+          trigger: "blur"
+        },
+        address: {
+          required: true,
+          message: "请输入企业地址",
+          trigger: "blur"
+        }
+      }
     };
   },
   mounted() {
@@ -64,18 +75,30 @@ export default {
     referenceUpload(e) {
       console.log(123123123);
       const files = e.target.files;
-      // this.ruleForm.enterpriseLogoUrl = files[0].
       console.log(files[0]);
       pushImage(files[0])
         .then(res => {
-          console.log(res);
+          this.$set(
+            this.ruleForm,
+            "enterpriseLogoUrl",
+            "http://" + res.Location
+          );
+          // this.ruleForm.enterpriseLogoUrl = "http://"+res.Location
+          console.log(this.ruleForm);
         })
         .catch(err => {
           console.log(err);
         });
     },
     onSave() {
-      updataCompanyInfo(this.ruleForm);
+      if (
+        this.ruleForm.enterpriseName &&
+        this.ruleForm.enterpriseScale &&
+        this.ruleForm.enterpriseAddress
+      ) {
+        console.log(JSON.stringify(this.ruleForm))
+        updataCompanyInfo(this.ruleForm);
+      }
     }
   }
 };
