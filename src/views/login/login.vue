@@ -30,8 +30,8 @@
         <div class="login-btn cur-p" @click="onLogin">登录</div>
       </div>
     </div>
-    <el-dialog title="选择企业" :visible.sync="showDialog" width="900px">
-      <selCompany :companyList="companyList" />
+    <el-dialog title="选择企业" :visible.sync="showDialog" width="500px">
+      <selCompany :companyList="companyList" @selCompany="selCompany" />
     </el-dialog>
   </div>
 </template>
@@ -54,6 +54,11 @@ export default {
     };
   },
   methods: {
+    selCompany(item) {
+      refreshCompany(item.tenantId);
+      this.loginParams.tenantId = item.tenantId;
+      this.doLogin();
+    },
     onLogin() {
       //   this.showDialog = true
       if (!this.loginParams.contactPhone) {
@@ -130,7 +135,7 @@ export default {
   },
   mounted() {
     this.isRememberPsd = !!localStorage.isRememberPsd;
-    console.log(localStorage)
+    console.log(localStorage);
     if (this.isRememberPsd) {
       this.loginParams.contactPhone = localStorage.contactPhone;
       this.loginParams.password = localStorage.password;

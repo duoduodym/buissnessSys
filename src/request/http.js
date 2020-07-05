@@ -2,11 +2,7 @@ import axios from "axios";
 import store from "../store";
 import routers from "../router";
 import { refreshToken } from "../libs/util/utils";
-if (process.env.NODE_ENV == "development") {
-  axios.defaults.baseURL = "https://fzg.fzzxwl.com:31886/tenant-admin";
-} else if (process.env.NODE_ENV == "production") {
-  axios.defaults.baseURL = "";
-}
+axios.defaults.baseURL = "https://fzg.fzzxwl.com:31886/tenant-admin";
 // 请求超时时间
 axios.defaults.timeout = 10000;
 // post请求头
