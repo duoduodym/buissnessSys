@@ -82,14 +82,14 @@ export default {
           console.log(res);
           if (res.data.tenants && res.data.tenants.length) {
             let tenants = res.data.tenants;
-            // if (tenants.length == 1) {
+            if (tenants.length == 1) {
               refreshCompany(tenants[0].tenantId);
               this.loginParams.tenantId = tenants[0].tenantId;
               this.doLogin();
-            // } else {
-            //   this.companyList = tenants;
-            //   this.showDialog = true;
-            // }
+            } else {
+              this.companyList = tenants;
+              this.showDialog = true;
+            }
           } else {
             this.$message.error({
               message: "该用户未绑定公司"

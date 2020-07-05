@@ -57,7 +57,7 @@
         <el-button type="primary" @click="onConfirm">确定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="绑定员工" :visible.sync="showBinding" width="900px" top="2vh">
+    <el-dialog title="绑定员工" :visible.sync="showBinding" width="900px" top="2vh" @opened="opened">
       <binding ref="binding" :roles="roles" :employeeObj="employeeObj" />
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="showBinding = false">关闭</el-button>
@@ -102,6 +102,9 @@ export default {
     }
   },
   methods: {
+    opened(){
+      this.$nextTick(()=> this.$refs.binding.getObj())
+    },
     //添加员工成功
     employeeSuccess(type) {
       const str = type == "add" ? "添加成功" : "编辑成功";

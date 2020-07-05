@@ -65,7 +65,8 @@ export default {
   data() {
     return {
       //oRrdQtxsfnE9nCBhrKGEtwBGskYM
-      openId: ""
+      openId: "",
+      obj:{}
     };
   },
   methods: {
@@ -74,19 +75,11 @@ export default {
         wechatNumber: this.openId,
         employeeId: id
       }).then(res => {});
-    }
-  },
-  computed: {
-    tid() {
-      return this.$store.state.tenantId;
-    }
-  },
-  mounted() {
-    checkTenantId();
-    console.log(this.tid);
-
-    let state = `${this.tid}|${this.employeeObj.employeeId}`;
-    var obj = new WxLogin({
+    },
+    getObj(){
+      let state = `${this.tid}|${this.employeeObj.employeeId}`;
+      this.obj = {}
+      this.obj = new WxLogin({
       self_redirect: true,
       id: "login_container",
       appid: "wxfe4004088aebbda1&redirect_uri",
@@ -97,6 +90,20 @@ export default {
       style: "black",
       href: ""
     });
+    }
+
+    
+  },
+  computed: {
+    tid() {
+      return this.$store.state.tenantId;
+    }
+  },
+  mounted() {
+    checkTenantId();
+    console.log(this.tid);
+    this.getObj()
+   
   }
 };
 </script>
