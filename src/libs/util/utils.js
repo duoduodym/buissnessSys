@@ -51,6 +51,14 @@ export function refreshToken(token) {
   store.state.token = token;
 }
 
+export function checkToken() {
+  if (!store.state.token) {
+    if (localStorage && localStorage.token) {
+      store.state.token = localStorage.token;
+    }
+  }
+}
+
 export function refreshCompany(tenantId) {
   if (localStorage) {
     localStorage.tenantId = tenantId;

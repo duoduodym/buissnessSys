@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store";
+import { checkToken } from "../libs/util/utils";
 
 Vue.use(VueRouter);
 
@@ -33,8 +34,7 @@ const routes = [
               title: "员工管理",
               requireAuth: true,
             },
-            component: () =>
-              import("@/views/cmpMng/employeeMng/employeeMng.vue"),
+            component: () => import("@/views/cmpMng/employeeMng/employeeMng.vue"),
           },
           {
             path: "roleMng",
@@ -68,8 +68,7 @@ const routes = [
               title: "分类管理",
               requireAuth: true,
             },
-            component: () =>
-              import("@/views/financeMng/categoryMng/categoryMng.vue"),
+            component: () => import("@/views/financeMng/categoryMng/categoryMng.vue"),
           },
         ],
       },
@@ -86,9 +85,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log('beforeEach')
-  console.log(from)
+  console.log("beforeEach");
+  console.log(from);
   if (to.matched.some((record) => record.meta.requireAuth)) {
+    checkToken();
     if (store.getters.getToken) {
       next();
     } else {
