@@ -108,11 +108,15 @@ export default {
     //添加员工成功
     employeeSuccess(type) {
       const str = type == "add" ? "添加成功" : "编辑成功";
-      this.$message.success({
+        this.$message.success({
         message: str
       });
-      this.dialogFormVisible = false;
-      this.$refs.pagePanel.onSearch();
+      setTimeout(()=>{
+        this.dialogFormVisible = false;
+        this.$refs.pagePanel.onSearch();
+      },2000)
+    
+     
     },
     onConfirm() {
       this.$refs.detail.onConfirm();
@@ -170,7 +174,9 @@ export default {
           delEmployees(row.employeeId).then(res => {
             if (res.code == "0") {
               this.$message.success("删除成功");
-              this.$refs.pagePanel.onSearch();
+              setTimeout(()=>{
+                 this.$refs.pagePanel.onSearch();
+              },2000)
             } else {
               this.$message.error({
                 message: res.msg

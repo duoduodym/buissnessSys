@@ -63,7 +63,9 @@ export default {
 					delRole(row.roleId).then(res => {
 						if(res.code == '0'){
 							this.$message.success('删除成功')
-							this.$refs.pagePanel.onSearch()
+							setTimeout(()=>{
+								this.$refs.pagePanel.onSearch()
+							},2000)
 						}else{
 							this.$message.error({
 								message: res.msg
@@ -82,8 +84,10 @@ export default {
 			this.$message.success({
 				message: str
 			})
-			this.dialogFormVisible = false
-			this.$refs.pagePanel.onSearch()
+			setTimeout(()=>{
+				this.dialogFormVisible = false
+				this.$refs.pagePanel.onSearch()
+			},2000)
 		},
 		onConfirm() {
 			this.$refs.detail.onConfirm()
