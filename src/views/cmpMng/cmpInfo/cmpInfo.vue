@@ -32,7 +32,7 @@
         <el-col :span="12">
           <el-form-item label="企业logo">
             <div class="upload-btn cur-p">
-              <input type="file" class="upload-input" @change="referenceUpload" />
+              <input type="file" class="upload-input" @change="referenceUpload" accept="image/png,image/jpeg,image/gif,image/jpg" />
               <img :src="ruleForm.enterpriseLogoUrl" class="img-logo" />
             </div>
           </el-form-item>
