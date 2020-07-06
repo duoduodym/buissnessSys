@@ -2,7 +2,7 @@ const apis = {
     //企业
     cmpMng:{
         employeeMng:{
-            find:'/employees'
+            find:'/employees/search'
         },
         roleMng:{
             find:'/roles'
