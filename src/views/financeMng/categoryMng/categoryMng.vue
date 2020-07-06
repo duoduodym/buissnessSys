@@ -13,7 +13,7 @@
       <template slot="column">
         <el-table-column prop="costCategoryName" label="分类名称"></el-table-column>
         <el-table-column prop="createTime" label="创建时间"></el-table-column>
-        <el-table-column fixed="left" label="操作">
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" size="small" class="table-btn-blue" @click="edit(scope.row)">编辑</el-button>
             <el-button type="text" size="small" class="table-btn-red" @click="delCategory(scope.row)">删除</el-button>
