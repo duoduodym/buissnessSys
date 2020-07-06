@@ -104,6 +104,9 @@ export default {
               const info = JSON.parse(companyInfoStr);
               info.enterpriseInfo = this.ruleForm;
               localStorage.companyInfo = JSON.stringify(info);
+              this.$message.success({
+                message: "保存成功"
+              });
             }
           })
           .catch(err => {
