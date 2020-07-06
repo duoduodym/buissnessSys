@@ -3,7 +3,7 @@
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
       <el-row style="margin-top:20px">
         <el-col :span="12">
-          <el-form-item label="企业名称" prop="name">
+          <el-form-item label="企业名称" prop="enterpriseName">
             <el-input v-model="ruleForm.enterpriseName" placeholder="请输入企业名称"></el-input>
           </el-form-item>
         </el-col>
@@ -23,7 +23,7 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="企业地址" prop="address">
+          <el-form-item label="企业地址" prop="enterpriseAddress">
             <el-input v-model="ruleForm.enterpriseAddress" placeholder="请输入企业地址"></el-input>
           </el-form-item>
         </el-col>
@@ -51,12 +51,12 @@ export default {
     return {
       ruleForm: {},
       rules: {
-        name: {
+        enterpriseName: {
           required: true,
           message: "请输入企业名称",
           trigger: "blur"
         },
-        address: {
+        enterpriseAddress: {
           required: true,
           message: "请输入企业地址",
           trigger: "blur"
@@ -96,8 +96,21 @@ export default {
         this.ruleForm.enterpriseScale &&
         this.ruleForm.enterpriseAddress
       ) {
-        console.log(JSON.stringify(this.ruleForm))
-        updataCompanyInfo(this.ruleForm);
+        console.log(JSON.stringify(this.ruleForm));
+        updataCompanyInfo(this.ruleForm)
+          .then(res => {
+            let companyInfoStr = localStorage.companyInfo;
+            if (companyInfoStr) {
+              const info = JSON.parse(companyInfoStr);
+              info.enterpriseInfo = this.ruleForm;
+              localStorage.companyInfo = JSON.stringify(info);
+            }
+          })
+          .catch(err => {
+            this.$message.error({
+              message: "请求失败"
+            });
+          });
       }
     }
   }

@@ -22,7 +22,7 @@
       <template slot="column">
         <el-table-column prop="employeeName" label="姓名"></el-table-column>
         <el-table-column prop="phone" label="手机号"></el-table-column>
-        <el-table-column prop="employeeRoles" label="角色"></el-table-column>
+        <el-table-column prop="employeeRoles" label="角色" :formatter="formatRoles"></el-table-column>
         <el-table-column prop="createTime" label="创建时间"></el-table-column>
         <el-table-column fixed="left" label="操作">
           <template slot-scope="scope">
@@ -187,6 +187,11 @@ export default {
     },
     reset() {
       this.searchForm = {};
+    },
+    formatRoles(item){
+      const roles =item.employeeRoles.map(i=>i.roleName).join(',')
+      console.log(roles)
+      return roles
     }
   },
   created() {
