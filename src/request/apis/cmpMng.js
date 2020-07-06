@@ -28,6 +28,10 @@ export function delEmployees(id) {
 export function bindingEmployees(id, data) {
   return post(`/employees/${id}/bind-wechat-number`, data);
 }
+//解绑员工微信
+export function unBindingEmployees(id,data) {
+  return post(`/employees/${id}/unbound-wechat-number`,data);
+}
 
 /**********
  * 新增角色

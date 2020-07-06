@@ -11,7 +11,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="关键字搜索">
-              <el-input v-model.trim="searchForm.employeeNameMatch" placeholder="姓名/手机号"></el-input>
+              <el-input v-model.trim="searchForm.employeeNameAndPhoneMatch" placeholder="姓名/手机号"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
