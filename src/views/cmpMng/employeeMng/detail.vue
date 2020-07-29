@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       ruleForm: {
-		 employeeRoles:[]
+        employeeRoles: []
       },
       rules: {
         employeeName: [
@@ -82,9 +82,11 @@ export default {
         this.$nextTick(() => {
           this.clearForm();
           this.ruleForm = deepClone(val);
-          if(!this.ruleForm.employeeRoles){
-			  this.$set(this.ruleForm,'employeeRoles',[])
-		  }
+          if (!this.ruleForm.employeeRoles) {
+            this.$set(this.ruleForm, "employeeRoles", []);
+          }else{
+            this.ruleForm.employeeRoles = val.employeeRoles.map(i=>i.roleId)
+          }
         });
       },
       immediate: true
